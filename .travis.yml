@@ -1,5 +1,5 @@
-# tell Travis
 sudo: required
+
 services:
   - docker # tell travis we need a copy of docker running
 
@@ -9,4 +9,4 @@ before_install:
 
 # Travis CI will watch the output of these commands and if any value other than 0 is returned, it will assume our build failed (tests failed)
 script:
-  - docker run abrahamcalderon/docker-react npm run test -- --coverage
+  - docker run -e CI=true abrahamcalderon/docker-react npm run test -- --watchAll=false
