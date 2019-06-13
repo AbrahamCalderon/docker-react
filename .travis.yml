@@ -10,3 +10,16 @@ before_install:
 # Travis CI will watch the output of these commands and if any value other than 0 is returned, it will assume our build failed (tests failed)
 script:
   - docker run -e CI=true abrahamcalderon/docker-react npm run test -- --watchAll=false
+
+deploy:
+  provider: elasticbeanstalk
+  region: "ap-southeast-2"
+  app: "docker-react"
+  env: "DockerReact-env"
+  bucket_name: "elasticbeanstalk-ap-southeast-2-529841887625"
+  bucket_path: "docker-react"
+  on: # anytime we push branch into master, we deploy
+    branch: master
+  access_key_id: $AWS_ACCESS_KEY
+  secret_access_key:
+    secure: "$AWS_SECRET_KEY"
