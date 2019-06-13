@@ -11,10 +11,6 @@ RUN npm run build
 
 # Second phase - 'FROM' indicates the end of the previous FROM block and starts a new one
 FROM nginx
-# copy the '/app/build/'' folder into /nginx/html/. 
-# Syntax: we want to copy something over from the 'builder' phase above, 
-# followed by the folder we want to copy (/app/buil) and to
-# the destination on the container (/usr/share/nginx/html)
+EXPOSE 80
+# copy the '/app/build/' from builder phase into into /nginx/html/ on container. 
 COPY --from=builder /app/build /usr/share/nginx/html
-
-
