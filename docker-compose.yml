@@ -1,0 +1,25 @@
+version: "3"
+
+services:
+  web: # name of service/container, we called it Web
+    build:
+      context: . # where we want all the files and folders for this image (project) to be pulled from. Using this directory
+      dockerfile: Dockerfile.dev # location of the docker file used to construct the image for this web service (container)
+    ports:
+      # map port 3000 outside of container (host) with the container's 3000 port
+      - "3000:3000"
+    volumes:
+      # map folders from the host directories to containers snap shot versions
+      - /app/node_modules # essentially, do not match a folder against this folder in the container
+      - .:/app # map the folders in the current directory to the /app directory on the container
+  tests: # create a separate container that is solely responsible for running our tests
+    build:
+      context: . # where we want all the files and folders for this image (project) to be pulled from. Using this directory
+      dockerfile: Dockerfile.dev # location of the docker file used to construct the image for this web service (container)
+    volumes:
+      # map folders from the host directories to containers snap shot versions
+      - /app/node_modules # essentially, do not match a folder against this folder in the container
+      - .:/app # map the folders in the current working directory to the /app directory on the container
+    command: ["npm", "run", "test"] # Override the starting command when this test container is created. Should run tests instead of starting the service
+
+# Now when we run docker-compose up, we will have two containers (web and tests) that will start up. One for the app, and the other to test it.

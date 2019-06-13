@@ -1,0 +1,10 @@
+# This file is only used for building our docker image in a development environment
+FROM node:alpine
+
+WORKDIR '/app'
+
+COPY package.json .
+RUN npm install
+COPY . .
+
+CMD ["npm", "run", "start"]
