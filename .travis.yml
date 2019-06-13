@@ -1,0 +1,12 @@
+# tell Travis
+sudo: required
+services:
+  - docker # tell travis we need a copy of docker running
+
+# series of commands that are executed before our tests are ran. (building our image using Dockerfile.dev)
+before_install:
+  - docker build -t abrahamcalderon/docker-react -f Dockerfile.dev .
+
+# Travis CI will watch the output of these commands and if any value other than 0 is returned, it will assume our build failed (tests failed)
+script:
+  - docker run abrahamcalderon/docker-react npm run test -- --coverage
